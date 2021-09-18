@@ -1,56 +1,79 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React from "react";
+import { Button } from "@material-ui/core/";
+import { tokenToUser } from "./features/auth/authSlice";
+import axios from "axios";
+import {
+  AUTH_STATE,
+  CRED,
+  LOGIN_USER,
+  POST_PROFILE,
+  PROFILE,
+  JWT,
+  USER,
+  CSRF,
+} from "./features/types";
+
+import "./App.css";
+
+let _csrfToken: any = null;
+
+const getCsrfToken = async () => {
+  if (_csrfToken === null) {
+    try {
+      const res = await axios.get<CSRF>(
+        `${process.env.REACT_APP_API_URL}/api/csrf/create`
+      );
+      _csrfToken = res.data;
+      return _csrfToken;
+    } catch (e: any) {
+      const errorMessage = e.message;
+      console.log(errorMessage);
+      return errorMessage;
+    }
+  }
+};
+
+const test = async () => {
+  const csrf = getCsrfToken();
+  try {
+    const res = await axios.get<LOGIN_USER>(
+      `${process.env.REACT_APP_API_URL}/api/loginuser/`,
+      {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          "X-CSRFToken": csrf,
+        },
+      }
+    );
+    return res.data;
+  } catch (e: any) {
+    const errorMessage = e.message;
+    console.log(errorMessage);
+    return errorMessage;
+  }
+};
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        onClick={() =>
+          tokenToUser({ username: "sample1", password: "testuser" })
+        }
+      >
+        Token
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        onClick={() => test()}
+      >
+        Data
+      </Button>
     </div>
   );
 }
