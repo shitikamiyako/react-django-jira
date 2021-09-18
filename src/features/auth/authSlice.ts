@@ -17,7 +17,7 @@ import {
 // :string?
 let _csrfToken: any = null;
 
-
+axios.defaults.withCredentials = true;
 
 const getCsrfToken = async () => {
   if (_csrfToken === null) {
@@ -210,7 +210,7 @@ export const fetchAsyncCreateProf = createAsyncThunk(
     }
 );
 
-export const fetchAsyncGetProf = createAsyncThunk(
+export const fetchAsyncGetProfs = createAsyncThunk(
   "auth/getProfiles",
   async () => {
     const csrf = getCsrfToken()
@@ -297,7 +297,7 @@ export const authSlice = createSlice({
       }
     );
     builder.addCase(
-      fetchAsyncGetProf.fulfilled,
+      fetchAsyncGetProfs.fulfilled,
       (state, action: PayloadAction<PROFILE[]>) => {
         return {
           ...state,
