@@ -88,13 +88,13 @@ const TaskList: React.FC = () => {
 
   const renderSwitch = (statusName: string) => {
     switch (statusName) {
-      case "Not started":
+      case "Not Yet":
         return (
           <Badge variant="dot" color="error">
             {statusName}
           </Badge>
         );
-      case "On going":
+      case "On Going":
         return (
           <Badge variant="dot" color="primary">
             {statusName}

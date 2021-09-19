@@ -12,7 +12,6 @@ import {
   fetchAsyncCreateProf,
   selectIsLoginView,
 } from "./authSlice";
-import { tokenToUser } from "./authSlice";
 
 axios.defaults.withCredentials = true;
 
@@ -45,7 +44,6 @@ const Auth: React.FC = () => {
         await dispatch(fetchAsyncCreateProf());
       }
     }
-    tokenToUser(credential);
   };
   return (
     <div className={styles.auth__root}>

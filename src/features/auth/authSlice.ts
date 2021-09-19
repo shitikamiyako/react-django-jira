@@ -42,6 +42,7 @@ export const tokenToUser = async (auth:any) => {
       auth,
       {
         headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       }
     );
     return res.data;
@@ -76,6 +77,7 @@ export const newToken = async (refresh: any) => {
           "Content-Type": "application/json; charset=utf-8",
           "X-CSRFToken": csrf,
         },
+        withCredentials: true,
         body: refresh,
       }
     );

@@ -5,11 +5,10 @@ import { READ_TASK, POST_TASK, TASK_STATE, USER, CATEGORY } from "../types";
 
 export const fetchAsyncGetTasks = createAsyncThunk("task/getTask", async () => {
     const res = await axios.get<READ_TASK[]>(
-        `${process.env.REACT_APP_API_URL}/api/tasks`,
+        `${process.env.REACT_APP_API_URL}/api/tasks/`,
         {
-            // headers: {
-
-            // },
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
         },
     );
     return res.data;
@@ -21,9 +20,9 @@ export const fetchAsyncGetUsers = createAsyncThunk(
         const res = await axios.get<USER[]>(
              `${process.env.REACT_APP_API_URL}/api/users/`,
         {
-            // headers: {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
 
-            // },
         },
     );
     return res.data;
@@ -35,9 +34,8 @@ export const fetchAsyncGetCategory = createAsyncThunk(
         const res = await axios.get<CATEGORY[]>(
              `${process.env.REACT_APP_API_URL}/api/category/`,
         {
-            // headers: {
-
-            // },
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
         },
     );
     return res.data;
@@ -50,9 +48,9 @@ export const fetchAsyncCreateCategory = createAsyncThunk(
              `${process.env.REACT_APP_API_URL}/api/category/`,
              { item: item },
         {
-            // headers: {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
 
-            // },
         },
     );
     return res.data;
@@ -68,6 +66,7 @@ export const fetchAsyncCreateTask = createAsyncThunk(
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
             },
+            withCredentials: true,
         },
     );
     return res.data;
@@ -83,6 +82,7 @@ export const fetchAsyncUpdateTask = createAsyncThunk(
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
             },
+            withCredentials: true,
         },
     );
     return res.data;
@@ -97,6 +97,7 @@ export const fetchAsyncDeleteTask = createAsyncThunk(
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
             },
+            withCredentials: true,
         },
     );
     return id;
@@ -118,7 +119,7 @@ export const initialState: TASK_STATE = {
             responsible_username: "",
             owner: 0,
             owner_username: "",
-            create_at: "",
+            created_at: "",
             updated_at: "",
         },
     ],
@@ -146,7 +147,7 @@ export const initialState: TASK_STATE = {
             responsible_username: "",
             owner: 0,
             owner_username: "",
-            create_at: "",
+            created_at: "",
             updated_at: "",
         },
      users: [

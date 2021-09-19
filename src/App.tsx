@@ -64,7 +64,7 @@ const App: React.FC = () => {
 
   // ログアウト処理は非同期でやる必要はない
   const Logout = () => {
-    const res = axios.post(`${process.env.REACT_APP_API_URL}/api/logout/`);
+    axios.post(`${process.env.REACT_APP_API_URL}/api/logout/`);
     window.location.href = "/";
   };
 
@@ -76,8 +76,8 @@ const App: React.FC = () => {
   // 初回レンダリング時に一覧をすべて取得
   useEffect(() => {
     const fetchBootLoader = async () => {
-      await dispatch(fetchAsyncGetTasks());
       await dispatch(fetchAsyncGetMyProf());
+      await dispatch(fetchAsyncGetTasks());
       await dispatch(fetchAsyncGetUsers());
       await dispatch(fetchAsyncGetCategory());
       await dispatch(fetchAsyncGetProfs());
@@ -137,7 +137,6 @@ const App: React.FC = () => {
           <Grid item xs={6}>
             {tasks[0]?.task && <TaskList />}
           </Grid>
-          {/* 中段左半分はタスクの一覧 */}
           <Grid item xs={6}>
             <Grid
               container
