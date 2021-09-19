@@ -28,10 +28,6 @@ import {
   fetchAsyncGetTasks,
 } from "./features/task/taskSlice";
 
-// import TaskList from "./features/task/TaskList";
-// import TaskForm from "./features/task/TaskForm";
-// import TaskDisplay from "./features/task/TaskDisplay";
-
 import { AppDispatch } from "./app/store";
 import TaskList from "./features/task/TaskList";
 import TaskForm from "./features/task/TaskForm";
@@ -147,7 +143,7 @@ const App: React.FC = () => {
               container
               direction="column"
               alignItems="center"
-              justify="center"
+              justifyContent="center"
               style={{ minHeight: "80vh" }}
             >
               <Grid item>

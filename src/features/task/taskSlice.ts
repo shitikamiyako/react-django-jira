@@ -91,7 +91,7 @@ export const fetchAsyncUpdateTask = createAsyncThunk(
 export const fetchAsyncDeleteTask = createAsyncThunk(
     "task/deleteTask",
     async (id: number) => {
-        const res = await axios.delete(
+        await axios.delete(
              `${process.env.REACT_APP_API_URL}/api/tasks/${id}/`,
         {
             headers: {
@@ -184,13 +184,13 @@ export const taskSlice = createSlice({
                 };
             }
         );
-        // Token認証に失敗した場合
-        builder.addCase(
-            fetchAsyncGetTasks.rejected,
-            () => {
-                window.location.href = "/";
-            }
-        );
+        // // Token認証に失敗した場合
+        // builder.addCase(
+        //     fetchAsyncGetTasks.rejected,
+        //     () => {
+        //         window.location.href = "/";
+        //     }
+        // );
         builder.addCase(
             fetchAsyncGetUsers.fulfilled,
             (state, action: PayloadAction<USER[]>) => {
@@ -200,13 +200,13 @@ export const taskSlice = createSlice({
                 };
             }
         );
-        // Token認証に失敗した場合
-        builder.addCase(
-            fetchAsyncGetUsers.rejected,
-            () => {
-                window.location.href = "/";
-            }
-        );
+        // // Token認証に失敗した場合
+        // builder.addCase(
+        //     fetchAsyncGetUsers.rejected,
+        //     () => {
+        //         window.location.href = "/";
+        //     }
+        // );
         builder.addCase(
             fetchAsyncGetCategory.fulfilled,
             (state, action: PayloadAction<CATEGORY[]>) => {
@@ -216,13 +216,13 @@ export const taskSlice = createSlice({
                 };
             }
         );
-        // Token認証に失敗した場合
-        builder.addCase(
-            fetchAsyncGetCategory.rejected,
-            () => {
-                window.location.href = "/";
-            }
-        );
+        // // Token認証に失敗した場合
+        // builder.addCase(
+        //     fetchAsyncGetCategory.rejected,
+        //     () => {
+        //         window.location.href = "/";
+        //     }
+        // );
         builder.addCase(
             fetchAsyncCreateCategory.fulfilled,
             (state, action: PayloadAction<CATEGORY>) => {
