@@ -21,7 +21,6 @@ import {
 } from "./features/auth/authSlice";
 
 import {
-  selectTasks,
   selectEditedTask,
   fetchAsyncGetCategory,
   fetchAsyncGetUsers,
@@ -54,7 +53,6 @@ const App: React.FC = () => {
   const classes = useStyles();
   const dispatch: AppDispatch = useDispatch();
   const editedTask = useSelector(selectEditedTask);
-  const tasks = useSelector(selectTasks);
   const loginUser = useSelector(selectLoginUser);
   const profiles = useSelector(selectProfiles);
 
@@ -135,7 +133,7 @@ const App: React.FC = () => {
             </div>
           </Grid>
           <Grid item xs={6}>
-            {tasks[0]?.task && <TaskList />}
+            <TaskList />
           </Grid>
           <Grid item xs={6}>
             <Grid
