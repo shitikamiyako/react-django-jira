@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import axios from "axios";
 import {
@@ -12,18 +12,18 @@ import {
   CSRF,
 } from "../types";
 
-axios.defaults.withCredentials = true;
+
 
 // :string?
 let _csrfToken: any = null;
 
-
+axios.defaults.withCredentials = true;
 
 const getCsrfToken = async () => {
   if (_csrfToken === null) {
     try {
       const res = await axios.get<CSRF>(
-        `${process.env.REACT_APP_API_URL}/get/jwt/create`
+        `${process.env.REACT_APP_API_URL}/api/csrf/create`
       );
       _csrfToken = res.data;
       return _csrfToken;
@@ -35,13 +35,14 @@ const getCsrfToken = async () => {
   }
 };
 
-const tokenToUser = async (auth: CRED) => {
+export const tokenToUser = async (auth:any) => {
   try {
     const res = await axios.post<JWT>(
-      `${process.env.REACT_APP_API_URL}/api/get/jwt/create`,
+      `${process.env.REACT_APP_API_URL}/api/jwtcookie/create`,
       auth,
       {
         headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       }
     );
     return res.data;
@@ -55,7 +56,7 @@ const tokenToUser = async (auth: CRED) => {
 export const getRefreshToken = async () => {
   try {
     const res = await axios.post<JWT>(
-      `${process.env.REACT_APP_API_URL}/api/get/jwt/refresh`
+      `${process.env.REACT_APP_API_URL}/api/jwtcookie/refresh`
     );
     return res.data;
     } catch (e: any) {
@@ -70,12 +71,13 @@ export const newToken = async (refresh: any) => {
 
   try {
     const res = await axios.post<JWT>(
-      `${process.env.REACT_APP_API_URL}/api/get/jwt/newtoken`,
+      `${process.env.REACT_APP_API_URL}/api/jwtcookie/newtoken`,
       {
         headers: {
           "Content-Type": "application/json; charset=utf-8",
           "X-CSRFToken": csrf,
         },
+        withCredentials: true,
         body: refresh,
       }
     );
@@ -95,10 +97,13 @@ export const fetchAsyncLogin = createAsyncThunk(
   async (auth: CRED) => {
      try {
     const res = await axios.post<JWT>(
-      `${process.env.REACT_APP_API_URL}/api/get/jwt/create`,
+      `${process.env.REACT_APP_API_URL}/api/jwtcookie/create`,
       auth,
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        withCredentials: true,
       }
     );
     return res.data;
@@ -117,7 +122,7 @@ export const fetchAsyncLogin = createAsyncThunk(
 //   async (auth: CRED, thunkAPI) => {
 //      try {
 //     const res = await axios.post<JWT>(
-//       `${process.env.REACT_APP_API_URL}/api/get/jwt/create`,
+//       `${process.env.REACT_APP_API_URL}/api/jwtcookie/create`,
 //       auth,
 //       {
 //         headers: { "Content-Type": "application/json" },
@@ -138,11 +143,12 @@ export const fetchAsyncLogin = createAsyncThunk(
 
 export const fetchAsyncRegister = createAsyncThunk(
   "auth/register",
-  async (auth: CRED, thunkApi) => {
+  async (auth: CRED) => {
     const csrf = getCsrfToken()
     try {
         const res = await axios.post<USER>(
         `${process.env.REACT_APP_API_URL}/api/create/`,
+        auth,
       {
         headers: {
           "Content-Type": "application/json; charset=utf-8",
@@ -150,9 +156,7 @@ export const fetchAsyncRegister = createAsyncThunk(
         },
       }
         )
-      const user = res.data;
-      console.log(user)
-      tokenToUser(auth)
+      return res.data
 
     } catch (e: any) {
       const errorMessage = e.message;
@@ -208,12 +212,12 @@ export const fetchAsyncCreateProf = createAsyncThunk(
     }
 );
 
-export const fetchAsyncGetProf = createAsyncThunk(
+export const fetchAsyncGetProfs = createAsyncThunk(
   "auth/getProfiles",
   async () => {
     const csrf = getCsrfToken()
     try {
-        const res = await axios.post<PROFILE>(
+        const res = await axios.get<PROFILE>(
         `${process.env.REACT_APP_API_URL}/api/profile/`,
       {
         headers: {
@@ -281,6 +285,7 @@ export const authSlice = createSlice({
     builder.addCase(
       fetchAsyncLogin.fulfilled,
       (state, action: PayloadAction<JWT>) => {
+        // localStorage.setItem("localJWT", action.payload.access);
         action.payload.access && (window.location.href = "/tasks");
       }
     );
@@ -294,7 +299,7 @@ export const authSlice = createSlice({
       }
     );
     builder.addCase(
-      fetchAsyncGetProf.fulfilled,
+      fetchAsyncGetProfs.fulfilled,
       (state, action: PayloadAction<PROFILE[]>) => {
         return {
           ...state,
