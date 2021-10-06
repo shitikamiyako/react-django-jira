@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   parameter-store:
-    key:REACT_APP_API_URL
+    key:"REACT_APP_API_URL"
 
 phases:
   install:
