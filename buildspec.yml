@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   parameter-store:
-    REACT_APP_API_URL:"REACT_APP_API_URL"
+    key:REACT_APP_API_URL
 
 phases:
   install:
@@ -14,8 +14,8 @@ phases:
     - npm install
   build:
     commands:
-      - echo "REACT_APP_API_URL=${REACT_APP_API_URL}"
-      - echo "REACT_APP_API_URL=${REACT_APP_API_URL}" >> .env
+      - echo "REACT_APP_API_URL=${key}"
+      - echo "REACT_APP_API_URL=${key}" >> .env
       - npm run build
   post_build:
     commands:
