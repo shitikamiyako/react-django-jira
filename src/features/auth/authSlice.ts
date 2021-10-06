@@ -285,10 +285,10 @@ export const authSlice = createSlice({
     builder.addCase(
       fetchAsyncLogin.fulfilled,
       (state, action: PayloadAction<JWT>) => {
-        // localStorage.setItem("localJWT", action.payload.access);
+        // リダイレクトはset-Cookieの処理のため念の為1秒待つ
         action.payload.access && (setTimeout(function(){
           window.location.href =  "/tasks";
-          }, 5*1000));
+          }, 1*1000));
       }
     );
      builder.addCase(

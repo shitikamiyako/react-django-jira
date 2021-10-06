@@ -111,7 +111,7 @@ const App: React.FC = () => {
                 onChange={(e) =>
                   dispatch(
                     fetchAsyncUpdateProf({
-                      id: loginProfile.id ? loginProfile.id : loginUser.id,
+                      id: loginProfile.id,
                       img: e.target.files !== null ? e.target.files[0] : null,
                     })
                   )
