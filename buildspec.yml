@@ -15,8 +15,8 @@ phases:
     - npm install
   build:
     commands:
-      - echo "REACT_APP_API_URL=${key}"
-      - echo "REACT_APP_API_URL=${key}" >> .env
+      - echo "REACT_APP_API_URL=$key"
+      - echo "REACT_APP_API_URL=$key" >> .env
       - npm run build
   post_build:
     commands:
