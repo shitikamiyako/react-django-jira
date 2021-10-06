@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  parameter-store:
+    key:"REACT_APP_API_URL"
+
 phases:
   install:
     runtime-versions:
@@ -10,6 +14,7 @@ phases:
     - npm install
   build:
     commands:
+      - echo $key >> .env
       - npm run build
   post_build:
     commands:
